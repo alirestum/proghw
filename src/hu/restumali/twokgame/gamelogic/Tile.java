@@ -1,42 +1,64 @@
 package hu.restumali.twokgame.gamelogic;
 
+import java.util.HashMap;
+import java.util.Objects;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class Tile{
 
-    private int value;
-    private String color;
+    private TileType type;
+    private boolean mergeable;
+
 
     public Tile(){
-        this.value=0;
-        this.color="";
+        type = TileType.BLANK;
+        this.mergeable= true;
     }
 
-    public Tile(int v, String c){
-        this.value = v;
-        this.color = c;
+    public Tile(int n){
+        if (n == 2){
+            type = TileType.NUMBER_2;
+        } else{
+            type = TileType.NUMBER_4;
+        }
+        mergeable = true;
     }
 
     public int getValue() {
-        return value;
+        return type.getNumber();
     }
 
-    public void setValue(int value) {
-        this.value = value;
-    }
+    public boolean getMergeable() {return this.mergeable;}
+
+    public void setMergeable(boolean mergeable) { this.mergeable = mergeable;}
 
     public String getColor() {
-        return color;
+        return type.getColor();
     }
 
-    public void setColor(String color) {
-        this.color = color;
+    public void mergeTile(){
+        type = type.getNext();
+        this.mergeable = false;
     }
 
-    public void squareTile(){
-        this.value *= this.value;
+    @Override
+    public String toString() {
+        Integer i = this.type.getNumber();
+        return i.toString();
     }
 
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Tile tile = (Tile) o;
+        return mergeable == tile.mergeable &&
+                type == tile.type;
+    }
 
+    @Override
+    public int hashCode() {
+        return Objects.hash(type, mergeable);
+    }
 }

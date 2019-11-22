@@ -30,10 +30,10 @@ public class Main extends Application {
         test.shiftLeft();
         test.printBoard();
 
-        System.out.println();
+     //   System.out.println();
 
-        test.shiftLeft();
-        test.printBoard();
+     //   test.shiftLeft();
+      //  test.printBoard();
 
 
     }
