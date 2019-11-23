@@ -12,7 +12,12 @@ public enum TileType {
     NUMBER_8(8, "asd", NUMBER_16),
     NUMBER_4(4, "asd", NUMBER_8),
     NUMBER_2(2, "asd", NUMBER_4),
-    BLANK(0, "asd", null);
+    BLANK(0, "asd", null){
+        @Override
+        public TileType getNext(){
+            return this;
+        }
+    };
 
     private final int number;
     private final String color;
