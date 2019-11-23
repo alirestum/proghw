@@ -32,15 +32,15 @@ public class Board {
     }
 
     public void mergeTiles(int first, int second, int row) {
-        if (grid[row][first].getMergeable()){
+        if (grid[row][first].getMergeable()) {
             grid[row][first].mergeTile();
             grid[row][second] = new Tile();
         }
 
     }
 
-    public void AllowMerge(int row){
-        for (int i = 0; i<grid[row].length; i++){
+    public void AllowMerge(int row) {
+        for (int i = 0; i < grid[row].length; i++) {
             grid[row][i].setMergeable(true);
         }
     }
@@ -123,8 +123,8 @@ public class Board {
         }
     }
 
-    public void rotateCntClockwise(int times){
-        for (int i = 0; i<times; i++){
+    public void rotateCntClockwise(int times) {
+        for (int i = 0; i < times; i++) {
             for (int x = 0; x < 4 / 2; x++) {
                 // Consider elements in group of 4 in
                 // current square
@@ -144,9 +144,28 @@ public class Board {
                     // assign temp to left
                     grid[4 - 1 - y][x] = temp;
                 }
-        }
-        // Consider all squares one by one
             }
+            // Consider all squares one by one
+        }
     }
+
+    public void shiftRight(){
+        rotateCntClockwise(2);
+        shiftLeft();
+        rotateCntClockwise(2);
+    }
+
+    public void shiftUp(){
+        rotateCntClockwise(1);
+        shiftLeft();
+        rotateCntClockwise(3);
+    }
+
+    public void shiftDown(){
+        rotateCntClockwise(3);
+        shiftLeft();
+        rotateCntClockwise(1);
+    }
+
 
 }
