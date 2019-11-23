@@ -40,4 +40,9 @@ public enum TileType {
     public TileType getNext() {
         return next;
     }
+
+    @Override
+    public String toString() {
+        return Integer.toString(number);
+    }
 }

@@ -1,5 +1,7 @@
 package hu.restumali.twokgame.gamelogic;
 
+import java.util.Random;
+
 public class Board {
 
     private Tile[][] grid = new Tile[4][4];
@@ -9,6 +11,11 @@ public class Board {
             for (int j = 0; j < grid[i].length; j++) {
                 grid[i][j] = new Tile();
             }
+        }
+        for (int i=0; i<2; i++){
+            int colrand = new Random().nextInt(4);
+            int rowrand = new Random().nextInt(4);
+            grid[rowrand][colrand] = new Tile(2);
         }
     }
 
@@ -39,7 +46,7 @@ public class Board {
 
     }
 
-    public void AllowMerge(int row) {
+    public void allowMerge(int row) {
         for (int i = 0; i < grid[row].length; i++) {
             grid[row][i].setMergeable(true);
         }
@@ -72,8 +79,9 @@ public class Board {
                     removeZeros(row);
                 }
             }
-            AllowMerge(row);
+            allowMerge(row);
         }
+        addRandomTile();
       /*  for (int row = 0; row < grid.length; row++) {
             for (int col = 1; col < grid[row].length; col++) {
                 if (grid[row][0].getValue() == 0) {
@@ -165,6 +173,27 @@ public class Board {
         rotateCntClockwise(3);
         shiftLeft();
         rotateCntClockwise(1);
+    }
+
+    public void addRandomTile(){
+        int random = new Random().nextInt(11);
+        Tile t = null;
+        if (random %2 == 0 ){
+            t = new Tile(2);
+        } else if ( random % 4 == 0){
+            t = new Tile(4);
+        } else{
+            t = new Tile(2);
+        }
+        boolean success = false;
+        while (!success) {
+            int colrand = new Random().nextInt(4);
+            int rowrand = new Random().nextInt(4);
+            if (grid[rowrand][colrand].getValue() == 0){
+                grid[rowrand][colrand] = t;
+                success = true;
+            }
+        }
     }
 
 
