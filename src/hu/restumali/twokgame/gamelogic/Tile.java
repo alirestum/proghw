@@ -12,7 +12,7 @@ import java.util.HashMap;
 import java.util.Objects;
 import java.util.concurrent.atomic.AtomicInteger;
 
-public class Tile extends Label {
+public class Tile {
 
     private static int GLOBAL_ID_COUNTER = 0;
     private final int id = GLOBAL_ID_COUNTER++;
@@ -23,16 +23,13 @@ public class Tile extends Label {
     public Tile(){
         type = TileType.BLANK;
         this.mergeable= true;
-        this.setText(type.toString());
     }
 
     public Tile(int n){
         if (n == 2){
             type = TileType.NUMBER_2;
-            setText(type.toString());
         } else{
             type = TileType.NUMBER_4;
-            setText(type.toString());
         }
         mergeable = true;
     }
@@ -51,7 +48,6 @@ public class Tile extends Label {
 
     public void mergeTile(){
         type = type.getNext();
-        setText(type.toString());
         this.mergeable = false;
     }
 

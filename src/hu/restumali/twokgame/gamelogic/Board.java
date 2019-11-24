@@ -15,7 +15,7 @@ public class Board {
                 grid[i][j] = new Tile();
             }
         }
-        for (int i=0; i<2; i++){
+        for (int i = 0; i < 2; i++) {
             int colrand = new Random().nextInt(4);
             int rowrand = new Random().nextInt(4);
             grid[rowrand][colrand] = new Tile(2);
@@ -71,58 +71,36 @@ public class Board {
         }
     }
 
+    public boolean shiftable() {
+        int cnt = 0;
+        for (int i = 0; i < 4; i++) {
+            rotateCntClockwise(i);
+            for (int row = 0; row < grid.length; row++) {
+                for (int col = 0; col < grid[row].length - 1; col++) {
+                    if (grid[row][col].getValue() != grid[row][col+1].getValue() && grid[col][row].getValue() !=0)
+                        cnt++;
+                }
+            }
+        }
+        //rotateCntClockwise(1);
+        System.out.println(cnt);
+        return cnt != 46;
+    }
 
     public void shiftLeft() {
-        Tile[][] shiftedBoard = new Tile[4][4];
-        for (int row = 0; row < grid.length; row++) {
-            for (int col = 0; col < grid[row].length - 1; col++) {
-                removeZeros(row);
-                if (grid[row][col].getValue() == grid[row][col + 1].getValue()) {
-                    mergeTiles(col, col + 1, row);
+        if (shiftable()){
+            for (int row = 0; row < grid.length; row++) {
+                for (int col = 0; col < grid[row].length - 1; col++) {
                     removeZeros(row);
+                    if (grid[row][col].getValue() == grid[row][col + 1].getValue()) {
+                        mergeTiles(col, col + 1, row);
+                        removeZeros(row);
+                    }
                 }
+                allowMerge(row);
             }
-            allowMerge(row);
-        }
         addRandomTile();
-      /*  for (int row = 0; row < grid.length; row++) {
-            for (int col = 1; col < grid[row].length; col++) {
-                if (grid[row][0].getValue() == 0) {
-                    //grid[row][col-1] = grid[row][col];
-                    //grid[row][col] = new Tile();
-
-                    //  removeZeros(col-1,row);
-
-                    if (grid[row][col].getValue() == grid[row][col - 1].getValue() && grid[row][col - 1].getMergeable()) {
-                        mergeTiles(col - 1, col, row);
-                        //     removeZeros(col, row);
-                    }
-                } else {
-                    if (grid[row][col].getValue() == grid[row][col - 1].getValue() && grid[row][col - 1].getMergeable()) {
-                        mergeTiles(col - 1, col, row);
-                        //  removeZeros(col, row);
-                    }
-                    // for (int i = col; i< grid[row].length; i++){
-                    //     if (grid[row][i].getValue() != 0){
-                    //         grid[row][col]= grid[row][i];
-                    //         grid[row][i] = new Tile();
-                    //         break;
-                    //     }
-                    // }
-                    // if(grid[row][col].getValue() == grid[row][col-1].getValue() && grid[row][col-1].getMergeable()){
-                    //     grid[row][col-1].mergeTile();
-                    //     grid[row][col] = new Tile();
-                    //     for (int i = col; i< grid[row].length; i++){
-                    //         if (grid[row][i].getValue() != 0){
-                    //             grid[row][col]= grid[row][i];
-                    //             grid[row][i] = new Tile();
-                    //             break;
-                    //         }
-                    //     }
-                    // }
-                }
-            }
-        } */
+        }
     }
 
     public void printBoard() {
@@ -137,22 +115,11 @@ public class Board {
     public void rotateCntClockwise(int times) {
         for (int i = 0; i < times; i++) {
             for (int x = 0; x < 4 / 2; x++) {
-                // Consider elements in group of 4 in
-                // current square
                 for (int y = x; y < 4 - x - 1; y++) {
-                    // store current cell in temp variable
                     Tile temp = grid[x][y];
-
-                    // move values from right to top
                     grid[x][y] = grid[y][4 - 1 - x];
-
-                    // move values from bottom to right
                     grid[y][4 - 1 - x] = grid[4 - 1 - x][4 - 1 - y];
-
-                    // move values from left to bottom
                     grid[4 - 1 - x][4 - 1 - y] = grid[4 - 1 - y][x];
-
-                    // assign temp to left
                     grid[4 - 1 - y][x] = temp;
                 }
             }
@@ -160,50 +127,73 @@ public class Board {
         }
     }
 
-    public void shiftRight(){
+    public void shiftRight() {
         rotateCntClockwise(2);
         shiftLeft();
         rotateCntClockwise(2);
     }
 
-    public void shiftUp(){
+    public void shiftUp() {
         rotateCntClockwise(1);
         shiftLeft();
         rotateCntClockwise(3);
     }
 
-    public void shiftDown(){
+    public void shiftDown() {
         rotateCntClockwise(3);
         shiftLeft();
         rotateCntClockwise(1);
     }
 
-    public void addRandomTile(){
+    public void addRandomTile() {
         int random = new Random().nextInt(11);
         Tile t = null;
-        if (random %2 == 0 ){
+        if (random % 2 == 0) {
             t = new Tile(2);
-        } else if ( random % 4 == 0){
+        } else if (random % 4 == 0) {
             t = new Tile(4);
-        } else{
+        } else {
             t = new Tile(2);
         }
         boolean success = false;
         while (!success) {
             int colrand = new Random().nextInt(4);
             int rowrand = new Random().nextInt(4);
-            if (grid[rowrand][colrand].getValue() == 0){
+            if (grid[rowrand][colrand].getValue() == 0) {
                 grid[rowrand][colrand] = t;
                 success = true;
             }
         }
     }
 
-    public void draw(GraphicsContext gc){
+    public boolean gameLost() {
+        /*for (int row = 0; row < 4; row++) {
+            for (int col = 0; col < grid[row].length; col++) {
+                if (grid[row][col].getValue() == 0) {
+                    return false;
+                }
+            }
+        }
+        return true;*/
+        return !shiftable();
+    }
+
+    public boolean gameWon() {
+        for (int row = 0; row < grid.length; row++) {
+            for (int col = 0; col < grid[row].length; col++) {
+                if (grid[row][col].getValue() == 2048) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    public void draw(GraphicsContext gc) {
 
         for (int row = 0; row < 4; row++) {
             for (int col = 0; col < 4; col++) {
-                grid[row][col].draw(gc, col*100, row*100, 35);
+                grid[row][col].draw(gc, col * 100, row * 100, 35);
             }
         }
     }

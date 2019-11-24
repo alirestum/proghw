@@ -2,34 +2,20 @@ package hu.restumali.twokgame.ui;
 
 
 import hu.restumali.twokgame.gamelogic.Board;
-import hu.restumali.twokgame.gamelogic.Tile;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.Node;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.control.Label;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
-import javafx.scene.input.MouseEvent;
-import javafx.scene.input.ScrollEvent;
 import javafx.scene.layout.*;
-import javafx.scene.paint.Color;
-import javafx.scene.paint.Paint;
-import javafx.scene.shape.Rectangle;
 
-import java.io.IOException;
 import java.net.URL;
-import java.util.List;
 import java.util.ResourceBundle;
 
 
 public class GameController implements Initializable {
-
-    @Override
-    public void initialize(URL url, ResourceBundle resourceBundle) {
-        GraphicsContext gc = canvas.getGraphicsContext2D();
-        board.draw(gc);
-    }
 
 
     @FXML
@@ -37,39 +23,68 @@ public class GameController implements Initializable {
     @FXML
     private Pane pane;
 
-    private Board board= new Board();
-   // private AnchorPane ar = new AnchorPane();
+    @FXML
+    private AnchorPane anchor;
 
+    @FXML
+    private Label youwon;
 
+    @FXML
+    private Label youlost;
+    private Board board = new Board();
 
-
-  /*  @FXML
-    void halo(MouseEvent event) throws IOException {
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
         GraphicsContext gc = canvas.getGraphicsContext2D();
-        Tile t = new Tile(4);
+        board.draw(gc);
+        youwon.setVisible(false);
+        youlost.setVisible(false);
+        anchor.setVisible(false);
+    }
 
-    }*/
 
     @FXML
     void shift(KeyEvent event) {
         GraphicsContext gc = canvas.getGraphicsContext2D();
-        if (event.getCode() == KeyCode.UP){
-            board.shiftUp();
-            gc.clearRect(0,0,600,400);
-            board.draw(gc);
-        } else if (event.getCode() == KeyCode.RIGHT){
-            board.shiftRight();
-            gc.clearRect(0,0,600,400);
-            board.draw(gc);
-        } else if (event.getCode() == KeyCode.DOWN){
-            board.shiftDown();
-            gc.clearRect(0,0,600,400);
-            board.draw(gc);
-        } else if (event.getCode() == KeyCode.LEFT){
-            board.shiftLeft();
-            gc.clearRect(0,0,600,400);
-            board.draw(gc);
+        int[] stepcounter = new int[4];
+        if (event.getCode() == KeyCode.UP) {
+            if (!checkGameOutput()) {
+                board.shiftUp();
+                gc.clearRect(0, 0, 600, 400);
+                board.draw(gc);
+            }
+        } else if (event.getCode() == KeyCode.RIGHT) {
+            if (!checkGameOutput()) {
+                board.shiftRight();
+                gc.clearRect(0, 0, 600, 400);
+                board.draw(gc);
+            }
+        } else if (event.getCode() == KeyCode.DOWN) {
+            if (!checkGameOutput()) {
+                board.shiftDown();
+                gc.clearRect(0, 0, 600, 400);
+                board.draw(gc);
+            }
+        } else if (event.getCode() == KeyCode.LEFT) {
+            if (!checkGameOutput()) {
+                board.shiftLeft();
+                gc.clearRect(0, 0, 600, 400);
+                board.draw(gc);
+            }
         }
+    }
+
+    public boolean checkGameOutput() {
+        if (board.gameLost()) {
+            anchor.setVisible(true);
+            youlost.setVisible(true);
+            return false;
+        } else if (board.gameWon()) {
+            anchor.setVisible(true);
+            youwon.setVisible(true);
+            return false;
+        }
+        return false;
     }
 
 }
