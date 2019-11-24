@@ -31,6 +31,9 @@ public class GameController implements Initializable {
 
     @FXML
     private Label youlost;
+
+    @FXML
+    private Label scorelabel;
     private Board board = new Board();
 
     @Override
@@ -52,24 +55,28 @@ public class GameController implements Initializable {
                 board.shiftUp();
                 gc.clearRect(0, 0, 600, 400);
                 board.draw(gc);
+                scorelabel.setText(Integer.toString(board.getScore()));
             }
         } else if (event.getCode() == KeyCode.RIGHT) {
             if (!checkGameOutput()) {
                 board.shiftRight();
                 gc.clearRect(0, 0, 600, 400);
                 board.draw(gc);
+                scorelabel.setText(Integer.toString(board.getScore()));
             }
         } else if (event.getCode() == KeyCode.DOWN) {
             if (!checkGameOutput()) {
                 board.shiftDown();
                 gc.clearRect(0, 0, 600, 400);
                 board.draw(gc);
+                scorelabel.setText(Integer.toString(board.getScore()));
             }
         } else if (event.getCode() == KeyCode.LEFT) {
             if (!checkGameOutput()) {
                 board.shiftLeft();
                 gc.clearRect(0, 0, 600, 400);
                 board.draw(gc);
+                scorelabel.setText(Integer.toString(board.getScore()));
             }
         }
     }

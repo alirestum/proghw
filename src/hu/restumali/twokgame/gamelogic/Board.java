@@ -8,6 +8,7 @@ import java.util.Random;
 public class Board {
 
     private Tile[][] grid = new Tile[4][4];
+    private int score;
 
     public Board() {
         for (int i = 0; i < grid.length; i++) {
@@ -20,6 +21,7 @@ public class Board {
             int rowrand = new Random().nextInt(4);
             grid[rowrand][colrand] = new Tile(2);
         }
+        this.score = 0;
     }
 
     public Tile[][] getGrid() {
@@ -43,6 +45,7 @@ public class Board {
 
     public void mergeTiles(int first, int second, int row) {
         if (grid[row][first].getMergeable()) {
+            score += grid[row][first].getValue();
             grid[row][first].mergeTile();
             grid[row][second] = new Tile();
         }
@@ -199,4 +202,11 @@ public class Board {
     }
 
 
+    public int getScore() {
+        return score;
+    }
+
+    public void setScore(int score) {
+        this.score = score;
+    }
 }
