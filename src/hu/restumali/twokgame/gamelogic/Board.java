@@ -1,5 +1,8 @@
 package hu.restumali.twokgame.gamelogic;
 
+import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.paint.Paint;
+
 import java.util.Random;
 
 public class Board {
@@ -192,6 +195,15 @@ public class Board {
             if (grid[rowrand][colrand].getValue() == 0){
                 grid[rowrand][colrand] = t;
                 success = true;
+            }
+        }
+    }
+
+    public void draw(GraphicsContext gc){
+
+        for (int row = 0; row < 4; row++) {
+            for (int col = 0; col < 4; col++) {
+                grid[row][col].draw(gc, col*100, row*100, 35);
             }
         }
     }
