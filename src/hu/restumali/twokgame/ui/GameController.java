@@ -1,10 +1,7 @@
 package hu.restumali.twokgame.ui;
 
 
-import hu.restumali.twokgame.gamelogic.Board;
-import hu.restumali.twokgame.gamelogic.TopListEntry;
-import hu.restumali.twokgame.gamelogic.Toplist;
-import hu.restumali.twokgame.gamelogic.ToplistPersister;
+import hu.restumali.twokgame.gamelogic.*;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -50,6 +47,7 @@ public class GameController implements Initializable {
     private Board board = new Board();
     private Toplist toplist= new Toplist();
     private ToplistPersister toplistPersister = new ToplistPersister();
+    private BoardPersister bp = new BoardPersister();
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -107,6 +105,9 @@ public class GameController implements Initializable {
             primarywindow.setScene(newscene);
             primarywindow.show();
             mainroot.requestFocus();
+        } else if (event.getCode() == KeyCode.S){
+            bp.setBoard(board);
+            bp.write("test");
         }
     }
 
@@ -142,6 +143,10 @@ public class GameController implements Initializable {
             return false;
         }
         return false;
+    }
+
+    public void transferBoard(Board br){
+        this.board = br;
     }
 
 }
