@@ -2,15 +2,24 @@ package hu.restumali.twokgame.ui;
 
 
 import hu.restumali.twokgame.gamelogic.Board;
+import hu.restumali.twokgame.gamelogic.TopListEntry;
+import hu.restumali.twokgame.gamelogic.Toplist;
+import hu.restumali.twokgame.gamelogic.ToplistPersister;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
+import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.*;
+import javafx.stage.Stage;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -34,7 +43,13 @@ public class GameController implements Initializable {
 
     @FXML
     private Label scorelabel;
+
+    @FXML
+    private TextField namefield;
+
     private Board board = new Board();
+    private Toplist toplist= new Toplist();
+    private ToplistPersister toplistPersister = new ToplistPersister();
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -43,11 +58,13 @@ public class GameController implements Initializable {
         youwon.setVisible(false);
         youlost.setVisible(false);
         anchor.setVisible(false);
+        namefield.setVisible(false);
+        scorelabel.setText("0");
     }
 
 
     @FXML
-    void shift(KeyEvent event) {
+    void control(KeyEvent event) {
         GraphicsContext gc = canvas.getGraphicsContext2D();
         int[] stepcounter = new int[4];
         if (event.getCode() == KeyCode.UP) {
@@ -78,6 +95,37 @@ public class GameController implements Initializable {
                 board.draw(gc);
                 scorelabel.setText(Integer.toString(board.getScore()));
             }
+        } else if (event.getCode() == KeyCode.ESCAPE){
+            Pane mainroot = null;
+            try {
+                mainroot = (Pane) FXMLLoader.load(Main.class.getResource("menu.fxml"));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            Scene newscene = new Scene(mainroot);
+            Stage primarywindow = (Stage) (((Node) event.getSource()).getScene().getWindow());
+            primarywindow.setScene(newscene);
+            primarywindow.show();
+            mainroot.requestFocus();
+        }
+    }
+
+    public void addToToplist(String name){
+        if (!toplistPersister.read()){
+            toplist = new Toplist();
+        } else {
+            toplist = toplistPersister.getToplist();
+        }
+        toplist.add(new TopListEntry(board.getScore(), name));
+        toplistPersister.setToplist(toplist);
+        toplistPersister.write();
+    }
+
+    @FXML
+    public   void setUserName(KeyEvent event) {
+        if (event.getCode() == KeyCode.ENTER){
+            addToToplist(namefield.getText());
+            namefield.setVisible(false);
         }
     }
 
@@ -85,10 +133,12 @@ public class GameController implements Initializable {
         if (board.gameLost()) {
             anchor.setVisible(true);
             youlost.setVisible(true);
+            namefield.setVisible(true);
             return false;
         } else if (board.gameWon()) {
             anchor.setVisible(true);
             youwon.setVisible(true);
+            namefield.setVisible(true);
             return false;
         }
         return false;

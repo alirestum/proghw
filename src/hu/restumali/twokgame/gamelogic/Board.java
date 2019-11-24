@@ -170,14 +170,6 @@ public class Board {
     }
 
     public boolean gameLost() {
-        /*for (int row = 0; row < 4; row++) {
-            for (int col = 0; col < grid[row].length; col++) {
-                if (grid[row][col].getValue() == 0) {
-                    return false;
-                }
-            }
-        }
-        return true;*/
         return !shiftable();
     }
 
