@@ -89,7 +89,7 @@ public class Board {
                 }
             }
         }
-        return cnt != 46;
+        return cnt != 5; //46
     }
 
     public void shiftLeft() {

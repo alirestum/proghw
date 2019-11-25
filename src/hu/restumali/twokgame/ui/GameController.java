@@ -42,11 +42,17 @@ public class GameController implements Initializable {
     private Label scorelabel;
 
     @FXML
-    private TextField namefield;
+    private TextField saveNameField;
+
+    @FXML
+    private TextField toplistNameField;
+
+    @FXML
+    private Label saveLabel;
 
     private Board board;
-    private boolean createNewBoard = true;
-    private Toplist toplist= new Toplist();
+    private boolean allowStep = true;
+    private Toplist toplist = new Toplist();
     private ToplistPersister toplistPersister = new ToplistPersister();
     private BoardPersister bp = new BoardPersister();
 
@@ -58,7 +64,9 @@ public class GameController implements Initializable {
         youwon.setVisible(false);
         youlost.setVisible(false);
         anchor.setVisible(false);
-        namefield.setVisible(false);
+        saveNameField.setVisible(false);
+        toplistNameField.setVisible(false);
+        saveLabel.setVisible(false);
         scorelabel.setText("0");
     }
 
@@ -95,26 +103,19 @@ public class GameController implements Initializable {
                 board.draw(gc);
                 scorelabel.setText(Integer.toString(board.getScore()));
             }
-        } else if (event.getCode() == KeyCode.ESCAPE){
-            Pane mainroot = null;
-            try {
-                mainroot = (Pane) FXMLLoader.load(Main.class.getResource("menu.fxml"));
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            Scene newscene = new Scene(mainroot);
-            Stage primarywindow = (Stage) (((Node) event.getSource()).getScene().getWindow());
-            primarywindow.setScene(newscene);
-            primarywindow.show();
-            mainroot.requestFocus();
-        } else if (event.getCode() == KeyCode.S){
+        } else if (event.getCode() == KeyCode.ESCAPE) {
+            returnToMenu(event);
+        } else if (event.getCode() == KeyCode.S) {
             bp.setBoard(board);
-            bp.write("test");
+            anchor.setVisible(true);
+            saveLabel.setVisible(true);
+            saveNameField.setVisible(true);
+
         }
     }
 
-    public void addToToplist(String name){
-        if (!toplistPersister.read()){
+    public void addToToplist(String name) {
+        if (!toplistPersister.read()) {
             toplist = new Toplist();
         } else {
             toplist = toplistPersister.getToplist();
@@ -125,10 +126,23 @@ public class GameController implements Initializable {
     }
 
     @FXML
-    public   void setUserName(KeyEvent event) {
+    public void setUserName(KeyEvent event) {
+        if (event.getCode() == KeyCode.ENTER) {
+            addToToplist(toplistNameField.getText());
+            toplistNameField.setVisible(false);
+            pane.requestFocus();
+        }
+    }
+
+    @FXML
+    void saveName(KeyEvent event) {
         if (event.getCode() == KeyCode.ENTER){
-            addToToplist(namefield.getText());
-            namefield.setVisible(false);
+            bp.write(saveNameField.getText());
+            saveNameField.setVisible(false);
+            anchor.setVisible(false);
+            saveLabel.setVisible(false);
+            pane.requestFocus();
+
         }
     }
 
@@ -136,22 +150,50 @@ public class GameController implements Initializable {
         if (board.gameLost()) {
             anchor.setVisible(true);
             youlost.setVisible(true);
-            namefield.setVisible(true);
+            toplistNameField.setVisible(true);
             return false;
         } else if (board.gameWon()) {
             anchor.setVisible(true);
             youwon.setVisible(true);
-            namefield.setVisible(true);
+            toplistNameField.setVisible(true);
             return false;
         }
         return false;
     }
 
-    public void transferBoard(Board br){
+    public void transferBoard(Board br) {
         GraphicsContext gc = canvas.getGraphicsContext2D();
-        this.createNewBoard = false;
-        this.board = br;
+        if (br != null){
+            this.board = br;
+        }
         this.board.draw(gc);
+    }
+
+    @FXML
+    public void returnToGame(KeyEvent event){
+        if (event.getCode()== KeyCode.ESCAPE){
+            if (saveLabel.isVisible() || youwon.isVisible()){
+                anchor.setVisible(false);
+                youwon.setVisible(false);
+                saveLabel.setVisible(false);
+            } else if (youlost.isVisible()){
+                returnToMenu(event);
+            }
+        }
+    }
+
+    public void returnToMenu(KeyEvent event){
+        Pane mainroot = null;
+        try {
+            mainroot = (Pane) FXMLLoader.load(Main.class.getResource("menu.fxml"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        Scene newscene = new Scene(mainroot);
+        Stage primarywindow = (Stage) (((Node) event.getSource()).getScene().getWindow());
+        primarywindow.setScene(newscene);
+        primarywindow.show();
+        mainroot.requestFocus();
     }
 
 }
