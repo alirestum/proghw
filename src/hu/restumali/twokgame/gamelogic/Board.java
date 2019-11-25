@@ -32,6 +32,14 @@ public class Board {
         this.score = 0;
     }
 
+    public Board(int masik){
+        for (int i = 0; i < grid.length; i++) {
+            for (int j = 0; j < grid[i].length; j++) {
+                grid[i][j] = new Tile();
+            }
+        }
+    }
+
 
     /**
      * Visszatér a pálya Tile tömbjével.
@@ -126,6 +134,9 @@ public class Board {
      * @return A pálya shiftelhetősége.
      */
     public boolean shiftable() {
+        System.out.println("before shiftable");
+        printBoard();
+        System.out.println();
         int cnt = 0;
         for (int i = 0; i < 4; i++) {
             rotateCntClockwise(i);
@@ -136,6 +147,9 @@ public class Board {
                 }
             }
         }
+        System.out.println("after shiftable");
+        printBoard();
+        System.out.println();
         return cnt != 46; //46
     }
 
@@ -143,6 +157,9 @@ public class Board {
      * Megvalósítja a játék logikáját balra. Shifteli a sorokat, ha kell összevonja a Tile-okat.
      */
     public void shiftLeft() {
+        System.out.println("Before shiftleft");
+        printBoard();
+        System.out.println();
         if (shiftable()){
             for (int row = 0; row < grid.length; row++) {
                 for (int col = 0; col < grid[row].length - 1; col++) {
@@ -154,7 +171,13 @@ public class Board {
                 }
                 allowMerge(row);
             }
+            System.out.println("after shiftleft");
+            System.out.println();
+            printBoard();
         addRandomTile();
+            System.out.println("after random tile added");
+            printBoard();
+            System.out.println();
         }
     }
 
@@ -175,9 +198,9 @@ public class Board {
      * @param times Kívánt forgatások száma.
      */
     public void rotateCntClockwise(int times) {
-        Tile[][] ret = new Tile[grid.length][grid.length];
+       // Tile[][] ret = new Tile[grid.length][grid.length];
         for (int time = 0; time < times; time++) {
-            /*for (int x = 0; x < 4 / 2; x++) {
+            for (int x = 0; x < 4 / 2; x++) {
                 for (int y = x; y < 4 - x - 1; y++) {
                     Tile temp = grid[x][y];
                     grid[x][y] = grid[y][4 - 1 - x];
@@ -185,17 +208,18 @@ public class Board {
                     grid[4 - 1 - x][4 - 1 - y] = grid[4 - 1 - y][x];
                     grid[4 - 1 - y][x] = temp;
                 }
-            }*/
-            int size = grid.length;
+            }
+           /* int size = grid.length;
 
             for (int i = 0; i < size; ++i)
                 for (int j = 0; j < size; ++j)
                     ret[i][j] = grid[j][size - i - 1]; //***
             // Consider all squares one by one
         }
-        if (ret != null)
+        if (ret[0][0] != null)
         {
             this.grid = ret;
+        }*/
         }
 
     }
