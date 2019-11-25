@@ -65,7 +65,7 @@ public class Board {
 
 
     /**
-     * Áthelyez egy adott Tile-t egy olyan helyre ahol 0 van, majd a kicserélt Tile eredeti helyére 0-t tesz.
+     * Athelyez egy adott Tile-t egy olyan helyre ahol 0 van, majd a kicserélt Tile eredeti helyére 0-t tesz.
      * @param first Az oszlopindex ahova a nem 0 Tile kerül.
      * @param second Az oszlopindex ahova egy új 0 Tile kerül.
      * @param row A tábla sora amelyiken a műveletet végre kell hajtani.
@@ -175,8 +175,9 @@ public class Board {
      * @param times Kívánt forgatások száma.
      */
     public void rotateCntClockwise(int times) {
-        for (int i = 0; i < times; i++) {
-            for (int x = 0; x < 4 / 2; x++) {
+        Tile[][] ret = new Tile[grid.length][grid.length];
+        for (int time = 0; time < times; time++) {
+            /*for (int x = 0; x < 4 / 2; x++) {
                 for (int y = x; y < 4 - x - 1; y++) {
                     Tile temp = grid[x][y];
                     grid[x][y] = grid[y][4 - 1 - x];
@@ -184,9 +185,19 @@ public class Board {
                     grid[4 - 1 - x][4 - 1 - y] = grid[4 - 1 - y][x];
                     grid[4 - 1 - y][x] = temp;
                 }
-            }
+            }*/
+            int size = grid.length;
+
+            for (int i = 0; i < size; ++i)
+                for (int j = 0; j < size; ++j)
+                    ret[i][j] = grid[j][size - i - 1]; //***
             // Consider all squares one by one
         }
+        if (ret != null)
+        {
+            this.grid = ret;
+        }
+
     }
 
     /**

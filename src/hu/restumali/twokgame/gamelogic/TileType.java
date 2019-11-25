@@ -63,10 +63,6 @@ public enum TileType {
     }
 
 
-    /**
-     *
-     * @return
-     */
     @JsonInclude
     @JsonValue
     public String getName() {

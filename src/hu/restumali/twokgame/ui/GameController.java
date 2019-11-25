@@ -79,6 +79,7 @@ public class GameController implements Initializable {
 
     /**
      * Irányítja a játékot. Adott gomblenyomásra shiftel jobbra/balra/fel/le, vagy visszalép a menübe, vagy előhozza a játék mentésére szolgáló menüt.
+     *
      * @param event A lenyomott gomb ami a függvényt triggerelte.
      */
     @FXML
@@ -91,6 +92,7 @@ public class GameController implements Initializable {
                 gc.clearRect(0, 0, 600, 400);
                 board.draw(gc);
                 scorelabel.setText(Integer.toString(board.getScore()));
+                checkGameOutput();
             }
         } else if (event.getCode() == KeyCode.RIGHT) {
             if (!checkGameOutput()) {
@@ -127,6 +129,7 @@ public class GameController implements Initializable {
 
     /**
      * Beolvassa a toplistát, ozzáad egy értéket, majd a toplistát kiírja.
+     *
      * @param name Az a String amiylen néven az új bejegyzés mentésre kerül.
      */
     public void addToToplist(String name) {
@@ -142,6 +145,7 @@ public class GameController implements Initializable {
 
     /**
      * A toplistába való írás során beolvassa a kívánt nevet.
+     *
      * @param event
      */
     @FXML
@@ -156,11 +160,12 @@ public class GameController implements Initializable {
 
     /**
      * Játék mentésekor beolvassa a mentesi fájl nevét.
+     *
      * @param event
      */
     @FXML
     void saveName(KeyEvent event) {
-        if (event.getCode() == KeyCode.ENTER){
+        if (event.getCode() == KeyCode.ENTER) {
             bp.write(saveNameField.getText());
             saveNameField.setVisible(false);
             anchor.setVisible(false);
@@ -172,6 +177,7 @@ public class GameController implements Initializable {
 
     /**
      * Ellenőrzi a játék kimenetelét, hogy a játékos elveszítette/megnyerte-e a játékot.
+     *
      * @return
      */
     public boolean checkGameOutput() {
@@ -181,35 +187,37 @@ public class GameController implements Initializable {
             toplistNameField.setVisible(true);
             return false;
         } else if (board.gameWon()) {
+            System.out.println(board.gameWon());
             anchor.setVisible(true);
             youwon.setVisible(true);
             toplistNameField.setVisible(true);
-            return false;
+            return true;
         }
         return false;
     }
 
     /**
      * A kontroller saját pályáját egy átvett pályára állítja.
+     *
      * @param br Az átvett pálya.
      */
     public void transferBoard(Board br) {
         GraphicsContext gc = canvas.getGraphicsContext2D();
-        if (br != null){
+        if (br != null) {
             this.board = br;
         }
         this.board.draw(gc);
     }
 
-    //TODO: EZ MI A RÁKÉRT NINCS HANSZÁLVA???? VISZONT HA NINCS HASZNÁLVA AKKOR HOHYAN MŰKÖDIK EZ A SZAR?
+
     @FXML
-    public void returnToGame(KeyEvent event){
-        if (event.getCode()== KeyCode.ESCAPE){
-            if (saveLabel.isVisible() || youwon.isVisible()){
+    public void returnToGame(KeyEvent event) {
+        if (event.getCode() == KeyCode.ESCAPE) {
+            if (saveLabel.isVisible() || youwon.isVisible()) {
                 anchor.setVisible(false);
                 youwon.setVisible(false);
                 saveLabel.setVisible(false);
-            } else if (youlost.isVisible()){
+            } else if (youlost.isVisible()) {
                 returnToMenu(event);
             }
         }
@@ -217,9 +225,10 @@ public class GameController implements Initializable {
 
     /**
      * Visszatér a játék főmenüjébe.
+     *
      * @param event A gomblenyomás ami meghívta a függvényt.
      */
-    public void returnToMenu(KeyEvent event){
+    public void returnToMenu(KeyEvent event) {
         Pane mainroot = null;
         try {
             mainroot = (Pane) FXMLLoader.load(Main.class.getResource("menu.fxml"));
