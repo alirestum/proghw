@@ -21,6 +21,9 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 
+/**
+ * A játék írányítására szolgáló osztály.
+ */
 public class GameController implements Initializable {
 
 
@@ -56,6 +59,9 @@ public class GameController implements Initializable {
     private ToplistPersister toplistPersister = new ToplistPersister();
     private BoardPersister bp = new BoardPersister();
 
+    /**
+     * Inicializálja a játékteret, eltünteti a játék indulásakor nem használt objektumokat.
+     */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         GraphicsContext gc = canvas.getGraphicsContext2D();
@@ -71,6 +77,10 @@ public class GameController implements Initializable {
     }
 
 
+    /**
+     * Irányítja a játékot. Adott gomblenyomásra shiftel jobbra/balra/fel/le, vagy visszalép a menübe, vagy előhozza a játék mentésére szolgáló menüt.
+     * @param event A lenyomott gomb ami a függvényt triggerelte.
+     */
     @FXML
     void control(KeyEvent event) {
         GraphicsContext gc = canvas.getGraphicsContext2D();
@@ -114,6 +124,11 @@ public class GameController implements Initializable {
         }
     }
 
+
+    /**
+     * Beolvassa a toplistát, ozzáad egy értéket, majd a toplistát kiírja.
+     * @param name Az a String amiylen néven az új bejegyzés mentésre kerül.
+     */
     public void addToToplist(String name) {
         if (!toplistPersister.read()) {
             toplist = new Toplist();
@@ -125,6 +140,10 @@ public class GameController implements Initializable {
         toplistPersister.write();
     }
 
+    /**
+     * A toplistába való írás során beolvassa a kívánt nevet.
+     * @param event
+     */
     @FXML
     public void setUserName(KeyEvent event) {
         if (event.getCode() == KeyCode.ENTER) {
@@ -134,6 +153,11 @@ public class GameController implements Initializable {
         }
     }
 
+
+    /**
+     * Játék mentésekor beolvassa a mentesi fájl nevét.
+     * @param event
+     */
     @FXML
     void saveName(KeyEvent event) {
         if (event.getCode() == KeyCode.ENTER){
@@ -146,6 +170,10 @@ public class GameController implements Initializable {
         }
     }
 
+    /**
+     * Ellenőrzi a játék kimenetelét, hogy a játékos elveszítette/megnyerte-e a játékot.
+     * @return
+     */
     public boolean checkGameOutput() {
         if (board.gameLost()) {
             anchor.setVisible(true);
@@ -161,6 +189,10 @@ public class GameController implements Initializable {
         return false;
     }
 
+    /**
+     * A kontroller saját pályáját egy átvett pályára állítja.
+     * @param br Az átvett pálya.
+     */
     public void transferBoard(Board br) {
         GraphicsContext gc = canvas.getGraphicsContext2D();
         if (br != null){
@@ -169,6 +201,7 @@ public class GameController implements Initializable {
         this.board.draw(gc);
     }
 
+    //TODO: EZ MI A RÁKÉRT NINCS HANSZÁLVA???? VISZONT HA NINCS HASZNÁLVA AKKOR HOHYAN MŰKÖDIK EZ A SZAR?
     @FXML
     public void returnToGame(KeyEvent event){
         if (event.getCode()== KeyCode.ESCAPE){
@@ -182,6 +215,10 @@ public class GameController implements Initializable {
         }
     }
 
+    /**
+     * Visszatér a játék főmenüjébe.
+     * @param event A gomblenyomás ami meghívta a függvényt.
+     */
     public void returnToMenu(KeyEvent event){
         Pane mainroot = null;
         try {

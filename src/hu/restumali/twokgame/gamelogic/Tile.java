@@ -10,6 +10,10 @@ import javafx.scene.paint.Paint;
 import javafx.scene.text.Font;
 import java.util.Objects;
 
+/**
+ * A játékban ilyen Tile objektumokból áll. TileType enumáricót tartalmaznak, így mindegyiknek van száma színe és következő értéke.
+ * Az osztály továbbá tárol egy bool tagváltozót ami azt mondja meg, hogy az adott lépésben növelhető-e az adott Tile.
+ */
 public class Tile {
 
     private static int GLOBAL_ID_COUNTER = 0;
@@ -27,6 +31,10 @@ public class Tile {
         this.mergeable = true;
     }
 
+    /**
+     * Konstruktor. Kettes vagy négyes csempét generál.
+     * @param n Véletlenszerű szám amely alapján eldönti, hogy kettes vagy négyes legyen.
+     */
     public Tile(int n) {
         if (n == 2) {
             type = TileType.NUMBER_2;
@@ -59,10 +67,13 @@ public class Tile {
         this.mergeable = false;
     }
 
+    /**
+     * toString fgv. felüldefiniálás, hogy a Tile számértékét adja vissza.
+     * @return A Tile számértéke Stringként.
+     */
     @Override
     public String toString() {
-        Integer i = this.type.getNumber();
-        return i.toString();
+        return Integer.toString(type.getNumber());
     }
 
     public boolean compare(Object o) {
@@ -73,6 +84,13 @@ public class Tile {
                 type == tile.type;
     }
 
+    /**
+     * Kirajzolja a Tile-t a megadott grafikai helyre. A Tile vizuális megjelenése változik az értéke alapján.
+     * @param gc A grafikus hely ahova ki kell rajzolni.
+     * @param x  A kirajzolás helyének x pozíciója.
+     * @param y  A kirajzolás helyének y pozíciója.
+     * @param spacing Két Tile között kihagyandó hely.
+     */
     public void draw(GraphicsContext gc, int x, int y, int spacing) {
         gc.setFill(Paint.valueOf("#786f55"));
         gc.fillRect(x, y, 100, 100);
