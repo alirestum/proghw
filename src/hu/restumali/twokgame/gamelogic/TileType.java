@@ -1,6 +1,9 @@
 package hu.restumali.twokgame.gamelogic;
 
+import com.fasterxml.jackson.annotation.*;
+
 public enum TileType {
+    UNKNOWN(0,"",null),
     NUMBER_2048(2048, "#D65133", null),
     NUMBER_1024(1024, "#D96045", NUMBER_2048),
     NUMBER_512(512, "#CC674B", NUMBER_1024),
@@ -41,8 +44,15 @@ public enum TileType {
         return next;
     }
 
+    @JsonInclude
+    @JsonValue
+    public String getName() {
+        return super.name();
+    }
+
     @Override
     public String toString() {
         return Integer.toString(number);
     }
+
 }

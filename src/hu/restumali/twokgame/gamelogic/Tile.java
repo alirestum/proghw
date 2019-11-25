@@ -1,5 +1,9 @@
 package hu.restumali.twokgame.gamelogic;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonValue;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
@@ -10,7 +14,11 @@ public class Tile {
 
     private static int GLOBAL_ID_COUNTER = 0;
     private final int id = GLOBAL_ID_COUNTER++;
+
+    @JsonProperty
     private TileType type;
+
+    @JsonProperty
     private boolean mergeable;
 
 
@@ -28,6 +36,7 @@ public class Tile {
         mergeable = true;
     }
 
+    @JsonIgnore
     public int getValue() {
         return type.getNumber();
     }
@@ -40,6 +49,7 @@ public class Tile {
         this.mergeable = mergeable;
     }
 
+    @JsonIgnore
     public String getColor() {
         return type.getColor();
     }
@@ -54,7 +64,6 @@ public class Tile {
         Integer i = this.type.getNumber();
         return i.toString();
     }
-
 
     public boolean compare(Object o) {
         if (this == o) return true;

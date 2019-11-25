@@ -1,9 +1,11 @@
 package hu.restumali.twokgame.gamelogic;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Paint;
 
 import java.util.Random;
+
 
 public class Board {
 
@@ -23,6 +25,8 @@ public class Board {
         }
         this.score = 0;
     }
+
+
 
     public Tile[][] getGrid() {
         return grid;
@@ -85,8 +89,6 @@ public class Board {
                 }
             }
         }
-        //rotateCntClockwise(1);
-        System.out.println(cnt);
         return cnt != 46;
     }
 

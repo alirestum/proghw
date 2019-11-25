@@ -44,7 +44,8 @@ public class GameController implements Initializable {
     @FXML
     private TextField namefield;
 
-    private Board board = new Board();
+    private Board board;
+    private boolean createNewBoard = true;
     private Toplist toplist= new Toplist();
     private ToplistPersister toplistPersister = new ToplistPersister();
     private BoardPersister bp = new BoardPersister();
@@ -52,6 +53,7 @@ public class GameController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         GraphicsContext gc = canvas.getGraphicsContext2D();
+        board = new Board();
         board.draw(gc);
         youwon.setVisible(false);
         youlost.setVisible(false);
@@ -146,7 +148,10 @@ public class GameController implements Initializable {
     }
 
     public void transferBoard(Board br){
+        GraphicsContext gc = canvas.getGraphicsContext2D();
+        this.createNewBoard = false;
         this.board = br;
+        this.board.draw(gc);
     }
 
 }
