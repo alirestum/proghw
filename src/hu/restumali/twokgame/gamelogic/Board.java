@@ -32,14 +32,6 @@ public class Board {
         this.score = 0;
     }
 
-    public Board(int masik) {
-        for (int i = 0; i < grid.length; i++) {
-            for (int j = 0; j < grid[i].length; j++) {
-                grid[i][j] = new Tile();
-            }
-        }
-    }
-
 
     /**
      * Visszatér a pálya Tile tömbjével.
@@ -173,13 +165,7 @@ public class Board {
                 }
                 allowMerge(row);
             }
-            System.out.println("after shiftleft");
-            System.out.println();
-            printBoard();
             addRandomTile();
-            System.out.println("after random tile added");
-            printBoard();
-            System.out.println();
         }
     }
 

@@ -216,7 +216,7 @@ public class BoardTest {
 
     @Before
     public void setBoard(){
-        board = new Board(4);
+        board = new Board();
         Tile t2 = new Tile(2);
         Tile t3 = new Tile(4);
         for (int row = 0; row<4; row++){
