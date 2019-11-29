@@ -33,7 +33,7 @@ public class MenuController implements Initializable {
     @FXML
     private Button toplist;
     @FXML
-    private ListView listview = new ListView();
+    private ListView listview;// = new ListView();
     @FXML
     private TextField loadgamefield;
 
@@ -103,5 +103,12 @@ public class MenuController implements Initializable {
             br = bp.getBoard();
             loadGameScene(event, this.br);
         }
+    }
+
+    @FXML
+    void getSelectedListItem(MouseEvent event){
+        String selected = String.valueOf(listview.getSelectionModel().getSelectedItems());
+        loadgamefield.textProperty().setValue(selected.substring(1,selected.length()-1));
+        loadgamefield.requestFocus();
     }
 }

@@ -32,7 +32,7 @@ public class Board {
         this.score = 0;
     }
 
-    public Board(int masik){
+    public Board(int masik) {
         for (int i = 0; i < grid.length; i++) {
             for (int j = 0; j < grid[i].length; j++) {
                 grid[i][j] = new Tile();
@@ -43,6 +43,7 @@ public class Board {
 
     /**
      * Visszatér a pálya Tile tömbjével.
+     *
      * @return A pálya Tile tömbje.
      */
     public Tile[][] getGrid() {
@@ -52,6 +53,7 @@ public class Board {
 
     /**
      * Visszaad egy megadott Tile-t a tömbből.
+     *
      * @param row A Tile sorindexe.
      * @param col A Tile oszlopindexe,
      * @return A sor és oszlopindex által kiválaszott Tile.
@@ -63,9 +65,10 @@ public class Board {
 
     /**
      * Beállítja a pálya egyik Tile-ját a megadott Tile-ra.
+     *
      * @param row A beállítandó Tile sorindexe.
      * @param col A beállítandó Tile oszlopindexe.
-     * @param t A beállítandó Tile.
+     * @param t   A beállítandó Tile.
      */
     public void setTile(int row, int col, Tile t) {
         grid[row][col] = t;
@@ -74,9 +77,10 @@ public class Board {
 
     /**
      * Athelyez egy adott Tile-t egy olyan helyre ahol 0 van, majd a kicserélt Tile eredeti helyére 0-t tesz.
-     * @param first Az oszlopindex ahova a nem 0 Tile kerül.
+     *
+     * @param first  Az oszlopindex ahova a nem 0 Tile kerül.
      * @param second Az oszlopindex ahova egy új 0 Tile kerül.
-     * @param row A tábla sora amelyiken a műveletet végre kell hajtani.
+     * @param row    A tábla sora amelyiken a műveletet végre kell hajtani.
      */
     public void swapWithZero(int first, int second, int row) {
         grid[row][first] = grid[row][second];
@@ -86,9 +90,10 @@ public class Board {
     /**
      * Két Tile-t összevon amennyiben lehetséges, úgy, hogy a játék logikájából adódóan az első értékét duplázza, a másodikét 0-vá teszi. Hozzáadja
      * a Score-hoz az összevonandó Tile értékét.
-     * @param first A duplázandó Tile
+     *
+     * @param first  A duplázandó Tile
      * @param second A másik Tile aminek a helyére 0 Tile kerül.
-     * @param row A tábla sora amelyiken az adott műveletet végre kell hajtani.
+     * @param row    A tábla sora amelyiken az adott műveletet végre kell hajtani.
      */
     public void mergeTiles(int first, int second, int row) {
         if (grid[row][first].getMergeable()) {
@@ -100,7 +105,8 @@ public class Board {
     }
 
     /**
-     * Beállítja a pálya egyik során a Tile-ok Merge értékét igaz-ra. Tehát a Tile-ok merge-elhetők lesznek.
+     * Beállítja a pálya. egyik során a Tile-ok Merge értékét igaz-ra. Tehát a Tile-ok merge-elhetők lesznek.
+     *
      * @param row A pálya sora amelyiken a műveletet végre kell hajtani.
      */
     public void allowMerge(int row) {
@@ -111,6 +117,7 @@ public class Board {
 
     /**
      * Egy adott sorból eltávolítja a 0 Tile-okat, úgy, hogy végeredményként balra shiftelődik az adott sorban az összes nem 0 Tile.
+     *
      * @param row Az adott sor amelyen a műveletet végre kell hajtani.
      */
     public void removeZeros(int row) {
@@ -131,36 +138,31 @@ public class Board {
 
     /**
      * A játék elvesztéséhez szükséges, segédfüggvény. Megnézi, hogy lehet-e még valamilyen irányba shifttelni a pályát.
+     *
      * @return A pálya shiftelhetősége.
      */
     public boolean shiftable() {
-        System.out.println("before shiftable");
-        printBoard();
-        System.out.println();
         int cnt = 0;
         for (int i = 0; i < 4; i++) {
+            //    rotateCntClockwise(i);
             rotateCntClockwise(i);
             for (int row = 0; row < grid.length; row++) {
                 for (int col = 0; col < grid[row].length - 1; col++) {
-                    if (grid[row][col].getValue() != grid[row][col+1].getValue() && grid[col][row].getValue() !=0)
+                    if (grid[row][col].getValue() != grid[row][col + 1].getValue() && grid[col][row].getValue() != 0)
                         cnt++;
                 }
             }
+            rotateCntClockwise(4 - i);
         }
-        System.out.println("after shiftable");
-        printBoard();
-        System.out.println();
-        return cnt != 46; //46
+        return cnt != 46; //Ha a jatek elvesztese van teszteles alatt ezt 5-re kell allitani a gyorsabb teszteles erdekeben. Egyebkent 46-on kell hagyni.
+
     }
 
     /**
      * Megvalósítja a játék logikáját balra. Shifteli a sorokat, ha kell összevonja a Tile-okat.
      */
     public void shiftLeft() {
-        System.out.println("Before shiftleft");
-        printBoard();
-        System.out.println();
-        if (shiftable()){
+        if (shiftable()) {
             for (int row = 0; row < grid.length; row++) {
                 for (int col = 0; col < grid[row].length - 1; col++) {
                     removeZeros(row);
@@ -174,7 +176,7 @@ public class Board {
             System.out.println("after shiftleft");
             System.out.println();
             printBoard();
-        addRandomTile();
+            addRandomTile();
             System.out.println("after random tile added");
             printBoard();
             System.out.println();
@@ -187,7 +189,7 @@ public class Board {
     public void printBoard() {
         for (int i = 0; i < grid.length; i++) {
             for (int j = 0; j < grid[i].length; j++) {
-                System.out.print(grid[i][j].getValue());
+                System.out.print(grid[i][j].getValue() + "    ");
             }
             System.out.println();
         }
@@ -195,10 +197,11 @@ public class Board {
 
     /**
      * Óra járásával ellentétesen forgatja az egész pályát.
+     *
      * @param times Kívánt forgatások száma.
      */
     public void rotateCntClockwise(int times) {
-       // Tile[][] ret = new Tile[grid.length][grid.length];
+        // Tile[][] ret = new Tile[grid.length][grid.length];
         for (int time = 0; time < times; time++) {
             for (int x = 0; x < 4 / 2; x++) {
                 for (int y = x; y < 4 - x - 1; y++) {
@@ -278,6 +281,7 @@ public class Board {
 
     /**
      * Megnézi, hogy lehet e még valamerre shiftelni, amennyiben nem a játékos elveszítette a játékot.
+     *
      * @return Igaz, ha a játékos elveszítette a játékot.
      */
     public boolean gameLost() {
@@ -286,6 +290,7 @@ public class Board {
 
     /**
      * Megnézi hogy a pályán szerepel-e a 2048-as Tile. Ha igen a játékos megnyerte a játékot.
+     *
      * @return Igaz, ha a játékos megnyerte a játékot.
      */
     public boolean gameWon() {
@@ -301,6 +306,7 @@ public class Board {
 
     /**
      * Kirajzolja a pályát Tile-onként.
+     *
      * @param gc A grafikus hely ahova ki kell rajzolni a pályát.
      */
     public void draw(GraphicsContext gc) {
