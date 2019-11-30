@@ -1,11 +1,10 @@
 package hu.restumali.twokgame.ui;
 
-import hu.restumali.twokgame.gamelogic.Board;
+
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.layout.FlowPane;
 import javafx.stage.Stage;
 
 public class Main extends Application {

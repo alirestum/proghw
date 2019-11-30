@@ -1,9 +1,6 @@
 package hu.restumali.twokgame.gamelogic;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.paint.Paint;
-
 import java.util.Random;
 
 

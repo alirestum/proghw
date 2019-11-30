@@ -2,8 +2,6 @@ package hu.restumali.twokgame.gamelogic;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonValue;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
@@ -19,6 +17,8 @@ public class Tile {
     private static int GLOBAL_ID_COUNTER = 0;
     private final int id = GLOBAL_ID_COUNTER++;
 
+    private Position currentpos;
+    private Position lastpos;
     @JsonProperty
     private TileType type;
 
@@ -26,22 +26,24 @@ public class Tile {
     private boolean mergeable;
 
 
-    public Tile() {
+    public Tile(Position currentpos) {
         type = TileType.BLANK;
         this.mergeable = true;
+        this.currentpos = currentpos;
     }
 
     /**
      * Konstruktor. Kettes vagy négyes csempét generál.
      * @param n Véletlenszerű szám amely alapján eldönti, hogy kettes vagy négyes legyen.
      */
-    public Tile(int n) {
+    public Tile(int n, Position currentpos) {
         if (n == 2) {
             type = TileType.NUMBER_2;
         } else {
             type = TileType.NUMBER_4;
         }
         mergeable = true;
+        this.currentpos = currentpos;
     }
 
     @JsonIgnore
