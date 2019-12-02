@@ -178,7 +178,7 @@ public class GameController implements Initializable {
     /**
      * Ellenőrzi a játék kimenetelét, hogy a játékos elveszítette/megnyerte-e a játékot.
      *
-     * @return
+     * @return Igaz amennyiben a játékos nyert, hamis ha veszített.
      */
     public boolean checkGameOutput() {
         if (board.gameLost()) {
