@@ -26,24 +26,22 @@ public class Tile {
     private boolean mergeable;
 
 
-    public Tile(Position currentpos) {
+    public Tile() {
         type = TileType.BLANK;
         this.mergeable = true;
-        this.currentpos = currentpos;
     }
 
     /**
      * Konstruktor. Kettes vagy négyes csempét generál.
      * @param n Véletlenszerű szám amely alapján eldönti, hogy kettes vagy négyes legyen.
      */
-    public Tile(int n, Position currentpos) {
+    public Tile(int n) {
         if (n == 2) {
             type = TileType.NUMBER_2;
         } else {
             type = TileType.NUMBER_4;
         }
         mergeable = true;
-        this.currentpos = currentpos;
     }
 
     @JsonIgnore

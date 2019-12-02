@@ -243,6 +243,7 @@ public class Board {
      */
     public void addRandomTile() {
         int random = new Random().nextInt(11);
+
         Tile t = null;
         if (random % 2 == 0) {
             t = new Tile(2);

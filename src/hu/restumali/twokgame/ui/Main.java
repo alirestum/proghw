@@ -7,10 +7,12 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
+import java.util.Random;
+
 public class Main extends Application {
 
     @Override
-    public void start(Stage primaryStage) throws Exception{
+    public void start(Stage primaryStage) throws Exception {
         Parent root = FXMLLoader.load(getClass().getResource("menu.fxml"));
         primaryStage.setTitle("2kGame");
         primaryStage.setScene(new Scene(root, 400, 460));
@@ -22,20 +24,5 @@ public class Main extends Application {
 
     public static void main(String[] args) {
         launch(args);
-
-       // Board test = new Board();
-      //  test.printBoard();
-
-     //   System.out.println();
-
-      //  test.shiftLeft();
-      //  test.printBoard();
-
-     //   System.out.println();
-
-     //   test.shiftLeft();
-      //  test.printBoard();
-
-
     }
 }
