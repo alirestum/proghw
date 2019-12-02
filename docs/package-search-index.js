@@ -1,0 +1,1 @@
+packageSearchIndex = [{"l":"All Packages","url":"allpackages-index.html"},{"l":"hu.restumali.twokgame.gamelogic"},{"l":"hu.restumali.twokgame.ui"}]
