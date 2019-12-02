@@ -48,11 +48,21 @@ public class MenuController implements Initializable {
         loadgamefield.setVisible(false);
     }
 
+    /**
+     * Új játékot indít.
+     * @param event Az esemény ami tüzeli a függvényt.
+     */
     @FXML
     void newgame(MouseEvent event) {
         loadGameScene(event, br);
     }
 
+
+    /**
+     * Betölti a játék nézetet.
+     * @param event Az esemény ami tüzeli a függvényt.
+     * @param br A tábla amit be kell tölteni.
+     */
     public void loadGameScene(Event event, Board br){
         Pane mainroot = null;
         FXMLLoader loader = new FXMLLoader(getClass().getResource("board.fxml"));
@@ -72,6 +82,11 @@ public class MenuController implements Initializable {
         mainroot.requestFocus();
     }
 
+
+    /**
+     * Betölti a toplistát, majd kiirja a TextBox-ba.
+     * @param event Az esemény ami tüzeli a függvényt.
+     */
     @FXML
     void gettoplist(MouseEvent event){
         tw.read();
@@ -83,6 +98,11 @@ public class MenuController implements Initializable {
         }
     }
 
+
+    /**
+     * Betölti a korábban mentett játékokat, ebből a felhasználó választhat hogy melyiket szeretné betölteni.
+     * @param event Az esemény ami tüzeli a függvényt.
+     */
     @FXML
     void loadgame(MouseEvent event) {
         File f = new File(".");
@@ -96,6 +116,10 @@ public class MenuController implements Initializable {
         }
     }
 
+    /**
+     * Betölti a kiválasztott mentést.
+     * @param event Az esemény ami tüzeli a függvényt.
+     */
     @FXML
     void loadSavedGame(KeyEvent event) {
         if (event.getCode() == KeyCode.ENTER){
@@ -105,6 +129,10 @@ public class MenuController implements Initializable {
         }
     }
 
+    /**
+     * A kilistázott mentések közül az aktuálisan kiválasztottat beleteszi a TextBox-ba.
+     * @param event Az esemény ami tüzeli a függvényt.
+     */
     @FXML
     void getSelectedListItem(MouseEvent event){
         String selected = String.valueOf(listview.getSelectionModel().getSelectedItems());

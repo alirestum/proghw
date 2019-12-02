@@ -83,7 +83,7 @@ public class GameController implements Initializable {
      * @param event A lenyomott gomb ami a függvényt triggerelte.
      */
     @FXML
-    void control(KeyEvent event) {
+    public void control(KeyEvent event) {
         GraphicsContext gc = canvas.getGraphicsContext2D();
         int[] stepcounter = new int[4];
         if (event.getCode() == KeyCode.UP) {
@@ -164,7 +164,7 @@ public class GameController implements Initializable {
      * @param event
      */
     @FXML
-    void saveName(KeyEvent event) {
+    public void saveName(KeyEvent event) {
         if (event.getCode() == KeyCode.ENTER) {
             bp.write(saveNameField.getText());
             saveNameField.setVisible(false);
@@ -178,7 +178,7 @@ public class GameController implements Initializable {
     /**
      * Ellenőrzi a játék kimenetelét, hogy a játékos elveszítette/megnyerte-e a játékot.
      *
-     * @return
+     * @return Igaz amennyiben a játékos nyert, hamis ha veszített.
      */
     public boolean checkGameOutput() {
         if (board.gameLost()) {
